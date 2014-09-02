@@ -37,6 +37,7 @@ module.exports =
           when 'zsh'  then ""
           else ''
       openPanesInSameSplit: no
+      useAtomTheme: no
 
     activate: (@state)->
 
@@ -67,6 +68,7 @@ module.exports =
         shellArguments: atom.config.get 'term2.shellArguments'
         titleTemplate : atom.config.get 'term2.titleTemplate'
         cursorBlink   : atom.config.get 'term2.cursorBlink'
+        inheritTheme  : atom.config.get 'term2.useAtomTheme'
         colors        : @getColors()
 
       termView = new TermView opts

@@ -22,7 +22,7 @@ renderTemplate = (template, data)->
 class TermView extends View
 
   @content: ->
-    @div class: 'term2'
+    @div class: 'term2 editor-colors'
 
   constructor: (@opts={})->
     opts.shell = process.env.SHELL or 'bash'
@@ -39,7 +39,7 @@ class TermView extends View
 
   initialize: (@state)->
     {cols, rows} = @getDimensions()
-    {cwd, shell, shellArguments, runCommand, colors, cursorBlink, scrollback} = @opts
+    {cwd, shell, shellArguments, runCommand, colors, cursorBlink, scrollback, inheritTheme} = @opts
     args = shellArguments.split(/\s+/g).filter (arg)-> arg
 
     @ptyProcess = @forkPtyProcess args
@@ -61,6 +61,13 @@ class TermView extends View
 
     @input "#{runCommand}#{os.EOL}" if runCommand
     term.focus()
+
+    if inheritTheme
+      @find('.terminal').css({
+        backgroundColor: 'inherit',
+        color: 'inherit',
+        fontFamily: $('.editor').css('fontFamily')
+      })
 
     @attachEvents()
     @resizeToPane()
